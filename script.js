@@ -405,3 +405,26 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+// ==========================================
+// 2. INISIALISASI SAAT DOM SIAP
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+  // Ambil nama tamu dari URL parameter (?to=NamaTamu)
+  const urlParams = new URLSearchParams(window.location.search);
+  const namaTamu = urlParams.get("to");
+
+  if (namaTamu) {
+    const elemenNamaTamu = document.getElementById("nama-tamu-cover");
+    if (elemenNamaTamu) {
+      elemenNamaTamu.innerText = namaTamu;
+    }
+  }
+
+  // Bind event tombol Buka Undangan
+  const btnBuka =
+    document.getElementById("btn-buka") || document.querySelector(".btn-buka");
+  if (btnBuka) {
+    btnBuka.addEventListener("click", bukaUndangan);
+  }
+});
