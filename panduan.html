@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panduan Generator Link Undangan Digital</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body {
+        background-color: #f4f6f9;
+        color: #333;
+        line-height: 1.6;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .header {
+        text-align: center;
+        border-bottom: 2px solid #f0e6dd;
+        padding-bottom: 20px;
+        margin-bottom: 25px;
+      }
+
+      h1 {
+        font-size: 1.6rem;
+        color: #3b1101;
+        margin-bottom: 8px;
+      }
+
+      p.sub-header {
+        color: #666;
+        font-size: 0.9rem;
+      }
+
+      .section {
+        margin-bottom: 25px;
+      }
+
+      h2 {
+        font-size: 1.15rem;
+        color: #3b1101;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .step-list {
+        list-style: none;
+        counter-reset: step-counter;
+      }
+
+      .step-list li {
+        counter-increment: step-counter;
+        position: relative;
+        padding-left: 45px;
+        margin-bottom: 15px;
+        font-size: 0.9rem;
+      }
+
+      .step-list li::before {
+        content: counter(step-counter);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        background-color: #3b1101;
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 30px;
+        font-weight: 700;
+        font-size: 0.85rem;
+      }
+
+      .box-info {
+        background: #fdfaf6;
+        border-left: 4px solid #be8259;
+        padding: 15px;
+        border-radius: 0 8px 8px 0;
+        margin-top: 15px;
+        font-size: 0.85rem;
+      }
+
+      .box-info h4 {
+        color: #3b1101;
+        margin-bottom: 5px;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 15px;
+        margin-top: 10px;
+      }
+
+      .feature-card {
+        background: #f8f6f0;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #eae2d8;
+      }
+
+      .feature-card h3 {
+        font-size: 0.95rem;
+        color: #3b1101;
+        margin-bottom: 5px;
+      }
+
+      .feature-card p {
+        font-size: 0.82rem;
+        color: #555;
+      }
+
+      .btn-buka-dashboard {
+        display: block;
+        width: 100%;
+        text-align: center;
+        background-color: #3b1101;
+        color: white;
+        text-decoration: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        margin-top: 25px;
+        transition: background 0.3s;
+      }
+
+      .btn-buka-dashboard:hover {
+        background-color: #be8259;
+      }
+
+      code {
+        background: #eee;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.85rem;
+        color: #c7254e;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Panduan Generator Link Undangan</h1>
+        <p class="sub-header">
+          Petunjuk pembuatan link personal untuk para tamu undangan digital
+        </p>
+      </div>
+
+      <!-- CARA PENGGUNAAN -->
+      <div class="section">
+        <h2>Langkah-Langkah Membuat Link Tamu</h2>
+        <ol class="step-list">
+          <li>
+            <strong>Buka Halaman Dashboard Admin:</strong><br />
+            Akses halaman <code>admin.html</code> pada browser Anda.
+          </li>
+          <li>
+            <strong>Input Nama Tamu:</strong><br />
+            Ketik atau paste daftar nama tamu pada kotak teks. Untuk membuat
+            banyak link sekaligus, **tulis 1 nama per baris** (gunakan tombol
+            <i>Enter</i> untuk berpindah baris).
+          </li>
+          <li>
+            <strong>Klik Tombol Generate:</strong><br />
+            Tekan tombol <strong>"Buat Semua Link Undangan"</strong>. Sistem
+            akan otomatis memproses seluruh nama dan menyimpannya ke dalam
+            daftar.
+          </li>
+          <li>
+            <strong>Kirim ke Tamu Undangan:</strong><br />
+            Gunakan tombol <strong>"Salin Link"</strong> untuk mengambil URL
+            khusus atau tekan tombol <strong>"Kirim WA"</strong> untuk langsung
+            membuka aplikasi WhatsApp dengan pesan ucapan yang sudah terformat
+            rapi.
+          </li>
+        </ol>
+      </div>
+
+      <!-- FITUR DAFTAR TAMU -->
+      <div class="section">
+        <h2>Fitur Utama Dashboard Admin</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h3>Input Sekaligus (Bulk)</h3>
+            <p>
+              Bisa memasukkan puluhan nama tamu sekaligus hanya dalam sekali
+              klik.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>Integrasi WhatsApp</h3>
+            <p>
+              Teks salam dan link otomatis tersusun rapi siap kirim ke nomor
+              tujuan.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h3>Penyimpanan Otomatis</h3>
+            <p>
+              Daftar nama tidak akan hilang meskipun halaman di-refresh atau
+              ditutup.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATATAN PENTING -->
+      <div class="section">
+        <div class="box-info">
+          <h4>Tips & Catatan Penting:</h4>
+          <ul>
+            <li>
+              Pastikan penulisan nama menggunakan huruf kapital yang benar
+              (contoh: <code>Bapak Ahmad & Keluarga</code>).
+            </li>
+            <li>
+              Nama yang diinput akan muncul di bagian sampul depan undangan
+              digital tamu.
+            </li>
+            <li>
+              Setiap perangkat/browser menyimpan data rekapnya masing-masing
+              secara lokal.
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TOMBOL KEMBALI KE ADMIN -->
+      <a href="admin.html" class="btn-buka-dashboard">Buka Dashboard Admin</a>
+    </div>
+  </body>
+</html>

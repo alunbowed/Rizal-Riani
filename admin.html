@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Generator Link Undangan Multiple</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: "Montserrat", sans-serif;
+      }
+
+      body {
+        background-color: #f4f6f9;
+        color: #333;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        color: #3b1101;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #555;
+      }
+
+      textarea {
+        padding: 12px 15px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.3s;
+        resize: vertical;
+        min-height: 120px;
+      }
+
+      textarea:focus {
+        border-color: #be8259;
+      }
+
+      .btn-generate {
+        background-color: #3b1101;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s;
+        width: 100%;
+      }
+
+      .btn-generate:hover {
+        background-color: #be8259;
+      }
+
+      .table-container {
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+
+      th,
+      td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+        font-size: 0.85rem;
+      }
+
+      th {
+        background-color: #f8f6f0;
+        color: #3b1101;
+        font-weight: 600;
+      }
+
+      .action-cell {
+        display: flex;
+        gap: 6px;
+      }
+
+      .btn-table-copy {
+        padding: 6px 12px;
+        background: #3b1101;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.75rem;
+      }
+
+      .btn-table-wa {
+        padding: 6px 12px;
+        background: #25d366;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.75rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .btn-table-delete {
+        padding: 6px 12px;
+        background: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.75rem;
+      }
+
+      .btn-table-delete:hover {
+        background: #bd2130;
+      }
+
+      .header-tabel {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+
+      .btn-clear-all {
+        background: #6c757d;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <a
+      href="panduan.html"
+      style="
+        text-decoration: none;
+        color: #be8259;
+        font-weight: 600;
+        font-size: 0.85rem;
+      "
+      >📖 Lihat Panduan Penggunaan</a
+    >
+    <div class="container">
+      <h1>Generator Link Undangan</h1>
+
+      <!-- FORM INPUT NAMA (TEXTAREA MULTI-BARIS) -->
+      <form id="form-generator">
+        <div class="form-group">
+          <label for="nama-tamu">Daftar Nama Tamu (Satu Nama Per Baris):</label>
+          <textarea
+            id="nama-tamu"
+            placeholder="Contoh:&#10;Ahmad Subarkah&#10;Siti Rahma&#10;Bapak Budi & Keluarga"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn-generate">
+          Buat Semua Link Undangan
+        </button>
+      </form>
+
+      <!-- REKAP DAFTAR TAMU -->
+      <div class="table-container">
+        <div class="header-tabel">
+          <h3 style="font-size: 1.1rem; color: #3b1101">
+            Daftar Tamu yang Dibuat
+          </h3>
+          <button class="btn-clear-all" onclick="hapusSemua()">
+            Hapus Semua
+          </button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama Tamu</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="tabel-tamu-body">
+            <!-- Data dimuat dari LocalStorage secara dinamis -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      const baseUrl = window.location.href
+        .split("?")[0]
+        .replace("admin.html", "index.html");
+
+      const formGenerator = document.getElementById("form-generator");
+      const inputNama = document.getElementById("nama-tamu");
+      const tabelBody = document.getElementById("tabel-tamu-body");
+
+      let daftarTamu =
+        JSON.parse(localStorage.getItem("daftar_tamu_undangan")) || [];
+
+      document.addEventListener("DOMContentLoaded", renderTabel);
+
+      formGenerator.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const rawText = inputNama.value;
+        // Memecah input teks berdasarkan baris (Enter)
+        const daftarBaris = rawText.split("\n");
+
+        daftarBaris.forEach((baris) => {
+          const nama = baris.trim();
+          if (nama !== "") {
+            const encodedNama = encodeURIComponent(nama);
+            const generatedLink = `${baseUrl}?to=${encodedNama}`;
+
+            // Tambahkan ke daftar
+            daftarTamu.unshift({
+              id: Date.now() + Math.random(),
+              nama,
+              link: generatedLink,
+            });
+          }
+        });
+
+        simpanData();
+        renderTabel();
+        inputNama.value = "";
+      });
+
+      function simpanData() {
+        localStorage.setItem(
+          "daftar_tamu_undangan",
+          JSON.stringify(daftarTamu),
+        );
+      }
+
+      function renderTabel() {
+        tabelBody.innerHTML = "";
+
+        if (daftarTamu.length === 0) {
+          tabelBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#888;">Belum ada daftar tamu.</td></tr>`;
+          return;
+        }
+
+        daftarTamu.forEach((item, index) => {
+          const pesanWA = `Yth. ${item.nama},\n\nTanpa mengurangi rasa hormat, kami mengundang Bapak/Ibu/Saudara/i untuk hadir di acara pernikahan kami.\n\nDetail undangan dapat diakses pada link berikut:\n${item.link}\n\nTerima kasih.`;
+          const waUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(pesanWA)}`;
+
+          const row = document.createElement("tr");
+          row.innerHTML = `
+          <td>${index + 1}</td>
+          <td><strong>${item.nama}</strong></td>
+          <td>
+            <div class="action-cell">
+              <button class="btn-table-copy" onclick="salinDirect('${item.link}', this)">Salin Link</button>
+              <a class="btn-table-wa" href="${waUrl}" target="_blank">Kirim WA</a>
+              <button class="btn-table-delete" onclick="hapusTamu(${item.id})">Hapus</button>
+            </div>
+          </td>
+        `;
+          tabelBody.appendChild(row);
+        });
+      }
+
+      function hapusTamu(id) {
+        if (confirm("Apakah Anda yakin ingin menghapus nama tamu ini?")) {
+          daftarTamu = daftarTamu.filter((item) => item.id !== id);
+          simpanData();
+          renderTabel();
+        }
+      }
+
+      function hapusSemua() {
+        if (confirm("Apakah Anda yakin ingin menghapus SELURUH daftar tamu?")) {
+          daftarTamu = [];
+          simpanData();
+          renderTabel();
+        }
+      }
+
+      function salinDirect(link, btn) {
+        navigator.clipboard.writeText(link).then(() => {
+          const textAsli = btn.innerText;
+          btn.innerText = "OK!";
+          btn.style.background = "#28a745";
+          setTimeout(() => {
+            btn.innerText = textAsli;
+            btn.style.background = "#3b1101";
+          }, 1500);
+        });
+      }
+    </script>
+  </body>
+</html>
