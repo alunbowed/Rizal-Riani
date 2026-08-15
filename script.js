@@ -468,3 +468,121 @@ document.addEventListener("DOMContentLoaded", () => {
     btnBuka.addEventListener("click", bukaUndangan);
   }
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+  const rainContainer = document.getElementById("flower-rain-container");
+  if (!rainContainer) return;
+
+  // Emoji bunga pilihan (bisa ditambah/diganti)
+  const petals = ["🌸", "🌺", "❤️", "🌸"];
+
+  function createPetal() {
+    const petal = document.createElement("div");
+    petal.classList.add("petal");
+
+    // Ambil emoji acak & set ukuran bervariasi
+    petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+    petal.style.fontSize = Math.random() * 14 + 14 + "px"; // Ukuran 14px - 28px
+
+    // Posisi horizontal acak di seluruh lebar layar
+    petal.style.left = Math.random() * 100 + "vw";
+
+    // Kecepatan jatuh acak (5 - 10 detik)
+    const duration = Math.random() * 5 + 5;
+    petal.style.animationDuration = duration + "s";
+
+    // Delay acak sebelum jatuh
+    petal.style.animationDelay = Math.random() * 3 + "s";
+
+    rainContainer.appendChild(petal);
+
+    // Hapus elemen yang sudah di bawah agar memori browser tidak penuh
+    setTimeout(
+      () => {
+        petal.remove();
+      },
+      (duration + 3) * 1000,
+    );
+  }
+
+  // Buat 15 bunga di awal
+  for (let i = 0; i < 15; i++) {
+    createPetal();
+  }
+
+  // Tambahkan bunga baru secara berkala
+  setInterval(createPetal, 900);
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+  const container = document.getElementById("butterfly-container");
+  if (!container) return;
+
+  // Palette Warna Kulit (Nude / Soft Tan / Warm Peach / Cream)
+  const skinTones = [
+    "#e8d5c4", // Nude Cream terang
+    "#d9a785", // Soft Warm Tan
+    "#be8259", // Warm Brownish Nude (senada tema)
+    "#f5ece3", // Light Nude/Ivory
+    "#c49a6c", // Cream Gold Nude
+  ];
+
+  function createButterfly() {
+    const bf = document.createElement("div");
+    bf.classList.add("butterfly");
+
+    // Pilih warna kulit acak dari palette
+    const color = skinTones[Math.floor(Math.random() * skinTones.length)];
+
+    // SVG Kupu-Kupu presisi dengan 2 sayap terpisah
+    bf.innerHTML = `
+      <svg viewBox="0 0 64 64" fill="${color}">
+        <g class="wing-left">
+          <path d="M32,32 C20,10 5,12 8,28 C10,38 24,34 32,32 Z" opacity="0.95"/>
+          <path d="M32,32 C18,34 10,48 18,54 C24,58 30,42 32,32 Z" opacity="0.8"/>
+        </g>
+        <g class="wing-right">
+          <path d="M32,32 C44,10 59,12 56,28 C54,38 40,34 32,32 Z" opacity="0.95"/>
+          <path d="M32,32 C46,34 54,48 46,54 C40,58 34,42 32,32 Z" opacity="0.8"/>
+        </g>
+        <!-- Badan Kupu-kupu -->
+        <path d="M31,20 C31,18 33,18 33,20 L33,44 C33,46 31,46 31,44 Z" fill="#3b1101"/>
+      </svg>
+    `;
+
+    // Posisi awal acak (dari area bawah/samping)
+    const startX = Math.random() * 90; // 0vw - 90vw
+    const startY = 80 + Math.random() * 20; // 80vh - 100vh
+
+    bf.style.left = startX + "vw";
+    bf.style.top = startY + "vh";
+
+    // Arah terbang acak (ke atas & menyamping)
+    const targetX = (Math.random() - 0.5) * 200; // pergeseran X (-100px s/d 100px)
+    const targetY = -(400 + Math.random() * 300); // terbang ke atas (-400px s/d -700px)
+    const rotation = (Math.random() - 0.5) * 60; // kemiringan badan (-30deg s/d 30deg)
+
+    bf.style.setProperty("--tx", `${targetX}px`);
+    bf.style.setProperty("--ty", `${targetY}px`);
+    bf.style.setProperty("--rot", `${rotation}deg`);
+
+    // Kecepatan terbang (8 sampai 14 detik agar terasa anggun)
+    const duration = 8 + Math.random() * 6;
+    bf.style.animationDuration = duration + "s";
+
+    container.appendChild(bf);
+
+    // Hapus elemen setelah selesai terbang
+    setTimeout(() => {
+      bf.remove();
+    }, duration * 1000);
+  }
+
+  // Buat 3 kupu-kupu di awal
+  for (let i = 0; i < 3; i++) {
+    setTimeout(createButterfly, i * 1500);
+  }
+
+  // Munculkan kupu-kupu baru setiap 4 detik
+  setInterval(createButterfly, 4000);
+});
