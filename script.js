@@ -188,8 +188,10 @@ function salinRekening(elementId, btnElement) {
 }
 
 // ==========================================
-// 3. FUNGSI AUTO SCROLL (START / STOP / TOGGLE)
+// 3. FUNGSI AUTO SCROLL (SMOOTH & TOUCH AWARE)
 // ==========================================
+let autoScrollFrameId = null; // Menyimpan ID animasi
+
 function startAutoScroll() {
   const wrapper = document.querySelector(".invitation-wrapper");
   const btnAutoScroll = document.getElementById("btn-toggle-autoscroll");
@@ -197,19 +199,57 @@ function startAutoScroll() {
 
   isAutoScrolling = true;
 
-  // Ubah ikon tombol ke Pause ⏸ saat auto scroll aktif
   if (btnAutoScroll) {
     btnAutoScroll.innerHTML = iconPause;
   }
 
-  autoScrollInterval = setInterval(() => {
-    wrapper.scrollTop += 1;
+  // Gunakan requestAnimationFrame agar 60 FPS mulus di HP
+  function scrollStep() {
+    if (!isAutoScrolling) return;
+
+    // Nilai kecepatan scroll (bisa disesuaikan, misal 0.8 atau 1)
+    wrapper.scrollTop += 0.8; 
 
     // Berhenti otomatis jika sudah sampai dasar halaman
     if (wrapper.scrollTop + wrapper.clientHeight >= wrapper.scrollHeight - 2) {
       stopAutoScroll();
+      return;
     }
-  }, 30);
+
+    autoScrollFrameId = requestAnimationFrame(scrollStep);
+  }
+
+  autoScrollFrameId = requestAnimationFrame(scrollStep);
+}
+
+function stopAutoScroll() {
+  const btnAutoScroll = document.getElementById("btn-toggle-autoscroll");
+  isAutoScrolling = false;
+
+  if (autoScrollFrameId) {
+    cancelAnimationFrame(autoScrollFrameId);
+  }
+
+  if (btnAutoScroll) {
+    btnAutoScroll.innerHTML = iconPlay; // Pastikan kamu punya variabel iconPlay
+  }
+}
+
+// ==========================================
+// DETEKSI TOUCH/SCROLL MANUAL (AGAR TIDAK BENTROK)
+// ==========================================
+const wrapper = document.querySelector(".invitation-wrapper");
+
+if (wrapper) {
+  // Matikan Auto Scroll jika pengguna menyentuh layar HP
+  wrapper.addEventListener("touchstart", () => {
+    if (isAutoScrolling) stopAutoScroll();
+  }, { passive: true });
+
+  // Matikan Auto Scroll jika pengguna menggeser pakai Scroll Wheel Mouse (Desktop)
+  wrapper.addEventListener("wheel", () => {
+    if (isAutoScrolling) stopAutoScroll();
+  }, { passive: true });
 }
 
 function stopAutoScroll() {
