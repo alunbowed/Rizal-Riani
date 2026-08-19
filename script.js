@@ -310,7 +310,7 @@ window.addEventListener("load", function () {
           coverContainer.classList.add("animate");
         }
       }, 50);
-    }, 4000); // Durasi tampilnya loading screen
+    }, 3000); // Durasi tampilnya loading screen
   }
 });
 
